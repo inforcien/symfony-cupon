@@ -1,0 +1,44 @@
+{% extends 'extranet.html.twig' %}
+
+{% block id 'tienda' %}
+{% block title 'Ver / Modificar datos de mi tienda' %}
+
+{% block article %}
+    <h1>{{ block('title') }}</h1>
+
+    {{ form_start(formulario) }}
+    <div>
+        {{ form_errors(formulario) }}
+
+        <div>
+            {{ form_row(formulario.nombre) }}
+            <p class="ayuda">Puedes cambiarlo tantas veces como quieras, pero
+                te aconsejamos que no lo hagas para no confundir a tus clientes.</p>
+        </div>
+
+        <div>
+            {{ form_row(formulario.login) }}
+            <p class="ayuda">El "nombre de usuario" o <em>login</em> no se puede
+                cambiar una vez asignado.</p>
+        </div>
+
+        <div>
+            {{ form_row(formulario.passwordEnClaro) }}
+            <p class="ayuda">Si quieres cambiar la contraseña, escríbela dos veces.
+                Si no quieres cambiarla, deja su valor vacío.</p>
+        </div>
+
+        <div>
+            {{ form_row(formulario.descripcion) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.ciudad) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.direccion) }}
+        </div>
+    </div>
+    {{ form_end(formulario) }}
+{% endblock %}

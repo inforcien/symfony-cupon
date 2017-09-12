@@ -1,0 +1,11 @@
+{% extends 'extranet.html.twig' %}
+
+{% block id 'portada' %}
+{% block title %}Administración de {{ app.user.nombre }}{% endblock %}
+
+{% block article %}
+    <h1>Ofertas más recientes</h1>
+
+    {{dump(ofertas)}}
+
+{% endblock %}

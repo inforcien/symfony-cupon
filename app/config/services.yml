@@ -1,0 +1,65 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+#Servicio para las extensiones de twig
+services:
+    app.twig.cupon_extension:
+        class: AppBundle\Twig\Extension\CuponExtension
+        tags:
+            - { name: twig.extension }
+    intl.twig.extension:
+        class: Twig_Extensions_Extension_Intl 
+        tags: [{ name: 'twig.extension' }]
+
+    app.manager.usuario_manager:
+        class: AppBundle\Manager\UsuarioManager
+        arguments: ['@doctrine.orm.entity_manager', '@security.encoder_factory', '@security.token_storage']
+
+    app.manager.tienda_manager:
+        class: AppBundle\Manager\TiendaManager
+        arguments: ['@doctrine.orm.entity_manager', '@security.encoder_factory']
+
+    app.manager.oferta_manager:
+        class: AppBundle\Manager\OfertaManager
+        arguments: ['@doctrine.orm.entity_manager']     
+
+#servicio que escucha el login  
+
+#    app.login_listener:
+#        class: AppBundle\Listener\LoginListener 
+#        arguments: ['@router']
+#        tags:
+#            -	{ name: kernel.event_listener, event: security.interactive_login }
+#            -	{ name: kernel.event_listener, event: kernel.response }
+
+    app.login_listener:
+        class: AppBundle\Listener\LoginListener
+        arguments: ['@security.authorization_checker', '@router']
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }
+            - { name: kernel.event_listener, event: kernel.response }
+            
+    app.security.oferta_voter:
+        class: AppBundle\Security\CreadorOfertaVoter
+        tags:
+            - { name: security.voter }   
+            
+    app.admin.ciudad:
+        class: AppBundle\Admin\CiudadAdmin
+        arguments: [~, AppBundle\Entity\Ciudad, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Gestion, label: Ciudad } 
+    
+    app.admin.oferta:
+        class: AppBundle\Admin\OfertaAdmin 
+        arguments: [~, AppBundle\Entity\Oferta, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Gestion, label: Ofertas }
+
+    app.admin.tienda:
+        class: AppBundle\Admin\TiendaAdmin
+        arguments: [~, AppBundle\Entity\Tienda, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Gestion, label: Tienda }

@@ -1,0 +1,62 @@
+security:
+    firewalls:
+        # Firewall para la extranet
+        extranet:
+            pattern:	^/extranet
+            provider:	tiendas
+            anonymous:	~ 
+            form_login:
+                login_path: /extranet/login 
+                check_path: /extranet/login_check
+            logout:
+                path:	extranet_logout
+
+        # Firewall de la parte de administración o backend
+        backend:
+            pattern:        ^/easyadmin
+            provider:       administradores
+            http_basic:     ~
+        
+        # Firewall global utilizado en la parte pública o frontend
+        frontend:
+            pattern:        ^/*
+            provider:       usuarios
+            anonymous:      ~
+            form_login:
+                login_path: usuario_login
+                check_path: usuario_login_check
+            logout:
+                path:       usuario_logout
+#            remember_me:
+#                secret:     cupon1234
+#                lifetime:   604800  
+#                # 604.800 = 3.600 * 24 * 7 = 1 semana
+
+
+    access_control:
+        - { path: ^/(es|en)/usuario/(login|registro), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(es|en)/usuario/*, roles: ROLE_USUARIO }
+        - { path: ^/easyadmin/*,  roles: ROLE_ADMIN }
+        - { path: ^/extranet/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/extranet/*, roles: ROLE_TIENDA }
+
+
+    providers:
+        # Usuarios del frontend
+        usuarios:
+            entity: { class: AppBundle\Entity\Usuario, property: email }
+        # Usuarios esayAdmin
+        administradores:
+            memory:
+                users:
+                    # usuario = admin, contraseña = 1234
+                    admin: { password: '$2y$13$w700yeSs8FxMLrEXaCATgehosZf9vx09RbwKddswl9LN/22dKL2qO', roles: ROLE_ADMIN }
+        tiendas:
+            entity: { class: AppBundle\Entity\Tienda, property: login }
+
+            
+    encoders:
+        AppBundle\Entity\Usuario: bcrypt
+        Symfony\Component\Security\Core\User\User: { algorithm: bcrypt, cost: 8 }
+        AppBundle\Entity\Tienda: bcrypt
+

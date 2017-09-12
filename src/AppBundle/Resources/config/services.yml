@@ -1,0 +1,12 @@
+services:
+    app.admin.ciudad:
+        class: AppBundle\Admin\CiudadAdmin
+        arguments: [~, AppBundle\Entity\Ciudad, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Ciudad }
+
+    app.admin.tienda:
+        class: AppBundle\Admin\TiendaAdmin
+        arguments: [~, AppBundle\Entity\Tienda, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Tienda }

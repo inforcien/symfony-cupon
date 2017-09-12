@@ -1,0 +1,63 @@
+{% extends 'frontend.html.twig' %}
+
+{% block id 'usuario' %}
+{% block title 'Ver / Modificar mis datos' %}
+
+{% block article %}
+    <h1>{{ block('title') }}</h1>
+
+    {{ form_start(formulario) }}
+    <div>
+        <div class="errors">
+            {{ form_errors(formulario) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.nombre) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.apellidos) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.email) }}
+        </div>
+
+        <div>
+            {{ form_widget(formulario.passwordEnClaro) }}
+            <p class="ayuda">Si quieres cambiar la contraseña, escríbela dos veces. Si no quieres cambiarla, deja su valor vacío.</p>
+        </div>
+
+        <div>
+            {{ form_row(formulario.direccion) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.fechaNacimiento) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.dni) }}
+            <p class="ayuda">Escribe las 8 cifras y la letra sin dejar ningún espacio en blanco</p>
+        </div>
+
+        <div>
+            {{ form_row(formulario.numeroTarjeta) }}
+        </div>
+
+        <div>
+            {{ form_row(formulario.ciudad) }}
+            <p class="ayuda">Aunque puedes comprar cualquier oferta de cualquier ciudad, la ciudad seleccionada será tu opción preferente.</p>
+        </div>
+
+        <div>
+            {{ form_errors(formulario.permiteEmail) }}
+            {{ form_widget(formulario.permiteEmail) }}
+            <span>Me gustaría recibir el boletín de ofertas de Cupon</span>
+        </div>
+
+        {{ form_widget(formulario.guardar) }}
+    </div>
+    {{ form_end(formulario) }}
+{% endblock %}

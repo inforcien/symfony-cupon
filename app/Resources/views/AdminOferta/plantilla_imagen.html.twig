@@ -1,0 +1,7 @@
+<th>{% block name %}{{ admin.trans(field_description.label) }}{% endblock %}</th>
+<td>
+    <img src="{{ object.getFile }}" title="{{ object.getTitle }}">
+    dump(object);
+    </br>
+    {% block field %}{{ value|nl2br }}{% endblock %}
+</td>
